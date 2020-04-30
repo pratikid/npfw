@@ -1,0 +1,28 @@
+{
+  "kind": "ImageStream",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "workspace",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "workspace"
+    }
+  },
+  "spec": {
+    "tags": [
+      {
+        "name": "latest",
+        "annotations": null,
+        "from": {
+          "kind": "DockerImage",
+          "name": "workspace"
+        },
+        "generation": null,
+        "importPolicy": {}
+      }
+    ]
+  },
+  "status": {
+    "dockerImageRepository": ""
+  }
+}

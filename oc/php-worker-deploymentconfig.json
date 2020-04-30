@@ -1,0 +1,87 @@
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "php-worker",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "php-worker"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "strategy": {
+      "type": "Recreate",
+      "resources": {}
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange"
+      },
+      {
+        "type": "ImageChange",
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "php-worker"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "php-worker:latest"
+          }
+        }
+      }
+    ],
+    "replicas": 1,
+    "test": false,
+    "selector": {
+      "io.kompose.service": "php-worker"
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "io.kompose.service": "php-worker"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "php-worker-claim0",
+            "persistentVolumeClaim": {
+              "claimName": "php-worker-claim0"
+            }
+          },
+          {
+            "name": "php-worker-claim1",
+            "persistentVolumeClaim": {
+              "claimName": "php-worker-claim1"
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "php-worker",
+            "image": " ",
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "php-worker-claim0",
+                "mountPath": "/var/www"
+              },
+              {
+                "name": "php-worker-claim1",
+                "mountPath": "/etc/supervisord.d"
+              }
+            ]
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    }
+  },
+  "status": {}
+}

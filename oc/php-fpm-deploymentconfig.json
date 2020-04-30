@@ -1,0 +1,97 @@
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "php-fpm",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "php-fpm"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "strategy": {
+      "type": "Recreate",
+      "resources": {}
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange"
+      },
+      {
+        "type": "ImageChange",
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "php-fpm"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "php-fpm:latest"
+          }
+        }
+      }
+    ],
+    "replicas": 1,
+    "test": false,
+    "selector": {
+      "io.kompose.service": "php-fpm"
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "io.kompose.service": "php-fpm"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "php-fpm-claim0",
+            "persistentVolumeClaim": {
+              "claimName": "php-fpm-claim0"
+            }
+          },
+          {
+            "name": "php-fpm-claim1",
+            "persistentVolumeClaim": {
+              "claimName": "php-fpm-claim1"
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "php-fpm",
+            "image": " ",
+            "env": [
+              {
+                "name": "FAKETIME",
+                "value": "-0"
+              },
+              {
+                "name": "PHP_IDE_CONFIG",
+                "value": "serverName=laradock"
+              }
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "php-fpm-claim0",
+                "mountPath": "/usr/local/etc/php/php.ini"
+              },
+              {
+                "name": "php-fpm-claim1",
+                "mountPath": "/var/www"
+              }
+            ]
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    }
+  },
+  "status": {}
+}

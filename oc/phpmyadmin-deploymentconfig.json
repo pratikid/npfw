@@ -1,0 +1,85 @@
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "phpmyadmin",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "phpmyadmin"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "strategy": {
+      "resources": {}
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange"
+      },
+      {
+        "type": "ImageChange",
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "phpmyadmin"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "phpmyadmin:latest"
+          }
+        }
+      }
+    ],
+    "replicas": 1,
+    "test": false,
+    "selector": {
+      "io.kompose.service": "phpmyadmin"
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "io.kompose.service": "phpmyadmin"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "phpmyadmin",
+            "image": " ",
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ],
+            "env": [
+              {
+                "name": "MYSQL_PASSWORD",
+                "value": "mysql"
+              },
+              {
+                "name": "MYSQL_ROOT_PASSWORD",
+                "value": "root"
+              },
+              {
+                "name": "MYSQL_USER",
+                "value": "mysql"
+              },
+              {
+                "name": "PMA_ARBITRARY",
+                "value": "1"
+              }
+            ],
+            "resources": {}
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    }
+  },
+  "status": {}
+}

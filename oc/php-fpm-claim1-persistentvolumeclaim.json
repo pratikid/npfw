@@ -1,0 +1,22 @@
+{
+  "kind": "PersistentVolumeClaim",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "php-fpm-claim1",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "php-fpm-claim1"
+    }
+  },
+  "spec": {
+    "accessModes": [
+      "ReadWriteOnce"
+    ],
+    "resources": {
+      "requests": {
+        "storage": "100Mi"
+      }
+    }
+  },
+  "status": {}
+}

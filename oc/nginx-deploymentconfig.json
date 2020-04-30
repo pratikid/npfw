@@ -1,0 +1,118 @@
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "nginx",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "nginx"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "strategy": {
+      "type": "Recreate",
+      "resources": {}
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange"
+      },
+      {
+        "type": "ImageChange",
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "nginx"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "nginx:latest"
+          }
+        }
+      }
+    ],
+    "replicas": 1,
+    "test": false,
+    "selector": {
+      "io.kompose.service": "nginx"
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "io.kompose.service": "nginx"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "nginx-claim0",
+            "persistentVolumeClaim": {
+              "claimName": "nginx-claim0"
+            }
+          },
+          {
+            "name": "nginx-claim1",
+            "persistentVolumeClaim": {
+              "claimName": "nginx-claim1"
+            }
+          },
+          {
+            "name": "nginx-claim2",
+            "persistentVolumeClaim": {
+              "claimName": "nginx-claim2"
+            }
+          },
+          {
+            "name": "nginx-claim3",
+            "persistentVolumeClaim": {
+              "claimName": "nginx-claim3"
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "nginx",
+            "image": " ",
+            "ports": [
+              {
+                "containerPort": 80
+              },
+              {
+                "containerPort": 443
+              },
+              {
+                "containerPort": 81
+              }
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "nginx-claim0",
+                "mountPath": "/var/www"
+              },
+              {
+                "name": "nginx-claim1",
+                "mountPath": "/var/log/nginx"
+              },
+              {
+                "name": "nginx-claim2",
+                "mountPath": "/etc/nginx/sites-available"
+              },
+              {
+                "name": "nginx-claim3",
+                "mountPath": "/etc/nginx/ssl"
+              }
+            ]
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    }
+  },
+  "status": {}
+}

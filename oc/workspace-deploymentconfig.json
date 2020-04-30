@@ -1,0 +1,111 @@
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "workspace",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "workspace"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "strategy": {
+      "type": "Recreate",
+      "resources": {}
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange"
+      },
+      {
+        "type": "ImageChange",
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "workspace"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "workspace:latest"
+          }
+        }
+      }
+    ],
+    "replicas": 1,
+    "test": false,
+    "selector": {
+      "io.kompose.service": "workspace"
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "io.kompose.service": "workspace"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "workspace-claim0",
+            "persistentVolumeClaim": {
+              "claimName": "workspace-claim0"
+            }
+          },
+          {
+            "name": "workspace-claim1",
+            "persistentVolumeClaim": {
+              "claimName": "workspace-claim1"
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "workspace",
+            "image": " ",
+            "ports": [
+              {
+                "containerPort": 22
+              },
+              {
+                "containerPort": 3000
+              },
+              {
+                "containerPort": 3001
+              },
+              {
+                "containerPort": 8080
+              },
+              {
+                "containerPort": 8000
+              }
+            ],
+            "env": [
+              {
+                "name": "PHP_IDE_CONFIG",
+                "value": "serverName=laradock"
+              }
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "workspace-claim0",
+                "mountPath": "/var/www"
+              },
+              {
+                "name": "workspace-claim1",
+                "mountPath": "/etc/supervisord.d"
+              }
+            ],
+            "tty": true
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    }
+  },
+  "status": {}
+}

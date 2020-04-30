@@ -1,0 +1,22 @@
+{
+  "kind": "PersistentVolumeClaim",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "nginx-claim3",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "nginx-claim3"
+    }
+  },
+  "spec": {
+    "accessModes": [
+      "ReadWriteOnce"
+    ],
+    "resources": {
+      "requests": {
+        "storage": "100Mi"
+      }
+    }
+  },
+  "status": {}
+}

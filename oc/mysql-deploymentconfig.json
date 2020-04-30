@@ -1,0 +1,114 @@
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "mysql",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "mysql"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "strategy": {
+      "type": "Recreate",
+      "resources": {}
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange"
+      },
+      {
+        "type": "ImageChange",
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "mysql"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "mysql:latest"
+          }
+        }
+      }
+    ],
+    "replicas": 1,
+    "test": false,
+    "selector": {
+      "io.kompose.service": "mysql"
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "io.kompose.service": "mysql"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "mysql-claim0",
+            "persistentVolumeClaim": {
+              "claimName": "mysql-claim0"
+            }
+          },
+          {
+            "name": "mysql-claim1",
+            "persistentVolumeClaim": {
+              "claimName": "mysql-claim1"
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "mysql",
+            "image": " ",
+            "ports": [
+              {
+                "containerPort": 3306
+              }
+            ],
+            "env": [
+              {
+                "name": "MYSQL_DATABASE",
+                "value": "acat_main"
+              },
+              {
+                "name": "MYSQL_PASSWORD",
+                "value": "mysql"
+              },
+              {
+                "name": "MYSQL_ROOT_PASSWORD",
+                "value": "root"
+              },
+              {
+                "name": "MYSQL_USER",
+                "value": "mysql"
+              },
+              {
+                "name": "TZ",
+                "value": "UTC"
+              }
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "mysql-claim0",
+                "mountPath": "/var/lib/mysql"
+              },
+              {
+                "name": "mysql-claim1",
+                "mountPath": "/docker-entrypoint-initdb.d"
+              }
+            ]
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    }
+  },
+  "status": {}
+}

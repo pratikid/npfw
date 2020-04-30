@@ -1,0 +1,40 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "nginx",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "nginx"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "80",
+        "port": 80,
+        "targetPort": 80
+      },
+      {
+        "name": "443",
+        "port": 443,
+        "targetPort": 443
+      },
+      {
+        "name": "81",
+        "port": 81,
+        "targetPort": 81
+      }
+    ],
+    "selector": {
+      "io.kompose.service": "nginx"
+    }
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}

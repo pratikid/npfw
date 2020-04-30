@@ -1,0 +1,30 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "mysql",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "mysql"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "3306",
+        "port": 3306,
+        "targetPort": 3306
+      }
+    ],
+    "selector": {
+      "io.kompose.service": "mysql"
+    }
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}

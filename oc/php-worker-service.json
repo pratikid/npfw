@@ -1,0 +1,31 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "php-worker",
+    "creationTimestamp": null,
+    "labels": {
+      "io.kompose.service": "php-worker"
+    },
+    "annotations": {
+      "kompose.cmd": "kompose convert --provider openshift --file docker-compose.yml -j",
+      "kompose.version": "1.7.0 (HEAD)"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "headless",
+        "port": 55555,
+        "targetPort": 0
+      }
+    ],
+    "selector": {
+      "io.kompose.service": "php-worker"
+    },
+    "clusterIP": "None"
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
