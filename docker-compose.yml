@@ -42,7 +42,7 @@ services:
     - 443:443/tcp
     - 81:81/tcp
     volumes:
-    - /tmp/src:/var/www:cached
+    - ../src:/var/www:cached
     - ../npfw/logs/nginx:/var/log/nginx:rw
     - ../npfw/nginx/sites:/etc/nginx/sites-available:rw
     - ../npfw/nginx/ssl:/etc/nginx/ssl:rw
@@ -124,7 +124,7 @@ services:
       backend: null
     volumes:
     - ../npfw/php-fpm/php7.4.ini:/usr/local/etc/php/php.ini:rw
-    - /tmp/src:/var/www:cached
+    - ../src:/var/www:cached
   php-worker:
     build:
       args:
@@ -156,7 +156,7 @@ services:
     networks:
       backend: null
     volumes:
-    - /tmp/src:/var/www:cached
+    - ../src:/var/www:cached
     - ../npfw/php-worker/supervisord.d:/etc/supervisord.d:rw
   phpmyadmin:
     build:
@@ -278,7 +278,7 @@ services:
     - 8001:8000/tcp
     tty: true
     volumes:
-    - /tmp/src:/var/www:cached
+    - ../src:/var/www:cached
     - ../npfw/php-worker/supervisord.d:/etc/supervisord.d:rw
 version: '3.0'
 volumes:
