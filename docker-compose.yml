@@ -8,7 +8,7 @@ services:
     build:
       args:
         MYSQL_VERSION: latest
-      context: /tmp/acat/mysql
+      context: ../npfw/mysql
     environment:
       MYSQL_DATABASE: acat_main
       MYSQL_PASSWORD: mysql
@@ -21,7 +21,7 @@ services:
     - 3306:3306/tcp
     volumes:
     - /root/.laradock/data/mysql:/var/lib/mysql:rw
-    - /tmp/acat/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw
+    - ../npfw/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw
   nginx:
     build:
       args:
@@ -31,7 +31,7 @@ services:
         http_proxy: ''
         https_proxy: ''
         no_proxy: ''
-      context: /tmp/acat/nginx
+      context: ../npfw/nginx
     depends_on:
     - php-fpm
     networks:
@@ -43,9 +43,9 @@ services:
     - 81:81/tcp
     volumes:
     - /tmp/src:/var/www:cached
-    - /tmp/acat/logs/nginx:/var/log/nginx:rw
-    - /tmp/acat/nginx/sites:/etc/nginx/sites-available:rw
-    - /tmp/acat/nginx/ssl:/etc/nginx/ssl:rw
+    - ../npfw/logs/nginx:/var/log/nginx:rw
+    - ../npfw/nginx/sites:/etc/nginx/sites-available:rw
+    - ../npfw/nginx/ssl:/etc/nginx/ssl:rw
   php-fpm:
     build:
       args:
@@ -112,7 +112,7 @@ services:
         http_proxy: ''
         https_proxy: ''
         no_proxy: ''
-      context: /tmp/acat/php-fpm
+      context: ../npfw/php-fpm
     depends_on:
     - workspace
     environment:
@@ -123,7 +123,7 @@ services:
     networks:
       backend: null
     volumes:
-    - /tmp/acat/php-fpm/php7.4.ini:/usr/local/etc/php/php.ini:rw
+    - ../npfw/php-fpm/php7.4.ini:/usr/local/etc/php/php.ini:rw
     - /tmp/src:/var/www:cached
   php-worker:
     build:
@@ -150,17 +150,17 @@ services:
         PGID: '1000'
         PHALCON_VERSION: 3.4.5
         PUID: '1000'
-      context: /tmp/acat/php-worker
+      context: ../npfw/php-worker
     depends_on:
     - workspace
     networks:
       backend: null
     volumes:
     - /tmp/src:/var/www:cached
-    - /tmp/acat/php-worker/supervisord.d:/etc/supervisord.d:rw
+    - ../npfw/php-worker/supervisord.d:/etc/supervisord.d:rw
   phpmyadmin:
     build:
-      context: /tmp/acat/phpmyadmin
+      context: ../npfw/phpmyadmin
     depends_on:
     - mysql
     environment:
@@ -264,7 +264,7 @@ services:
         http_proxy: ''
         https_proxy: ''
         no_proxy: ''
-      context: /tmp/acat/workspace
+      context: ../npfw/workspace
     environment:
       PHP_IDE_CONFIG: serverName=laradock
     networks:
@@ -279,7 +279,7 @@ services:
     tty: true
     volumes:
     - /tmp/src:/var/www:cached
-    - /tmp/acat/php-worker/supervisord.d:/etc/supervisord.d:rw
+    - ../npfw/php-worker/supervisord.d:/etc/supervisord.d:rw
 version: '3.0'
 volumes:
   mysql:
