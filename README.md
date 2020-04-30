@@ -16,3 +16,19 @@ index.php
 phpinfo();
 ?>
 ```
+
+The repository consists of docker files for multiple containers:
+├─php-fpm
+├─nginx
+├─workspce 
+├─php-worker
+├─mysql
+├─phpmydmin
+├─neo4j
+
+Out of all the container currently I am focusing on nginx php-fpm and workspace.
+
+Use below command to start the containers 
+```bash
+docker-compose up -d nginx php-fpm workspce
+```
