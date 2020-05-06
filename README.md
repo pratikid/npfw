@@ -18,6 +18,7 @@ phpinfo();
 ```
 
 The repository consists of docker files for multiple containers:
+``` tree
 ├─php-fpm
 ├─nginx
 ├─workspce 
@@ -25,10 +26,11 @@ The repository consists of docker files for multiple containers:
 ├─mysql
 ├─phpmydmin
 ├─neo4j
+```
 
 Out of all the container currently I am focusing on nginx php-fpm and workspace.
 
 Use below command to start the containers 
 ```bash
-docker-compose up -d nginx php-fpm workspce
+docker-compose up -d nginx php-fpm workspace
 ```
